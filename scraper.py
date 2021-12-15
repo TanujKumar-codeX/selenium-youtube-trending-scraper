@@ -1,3 +1,4 @@
+import smtplib
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -41,23 +42,47 @@ def parse_video(video):
     'description':description_tag
   }
 
+def send_mail():
+  try:
+    server_ssl = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    server_ssl.ehlo()   # optional
+    
+    subject = 'Test Message from REPLit'
+    body = 'Hey, this a test mail from REPLit'
+
+    SENDER_EMAIL = 'trendsetterforyou@gmail.com'
+    RECIEVER_EMAIL = 'iitbtanuj@gmail.com'
+
+    email_text = f'''\
+    From: {SENDER_EMAIL}
+    To: {RECIEVER_EMAIL}
+    Subject: {subject}
+
+    {body}
+    '''
+  except:
+      print('Something went wrong...')
+
 if __name__ == '__main__':
-  print('Getting Driver')
-  driver = get_driver()
+  # print('Getting Driver')
+  # driver = get_driver()
 
-  print('Fetching Trending Videos')
+  # print('Fetching Trending Videos')
 
-  videos = get_videos(driver)
-  print(f'Found {len(videos)} trending videos.')
+  # videos = get_videos(driver)
+  # print(f'Found {len(videos)} trending videos.')
 
-  # title, url, channel, views, time uploaded, dicription, thumbnail url
+  # # title, url, channel, views, time uploaded, dicription, thumbnail url
 
-  print('Parsing Top 10 Videos.')
-  videos_data = [parse_video(video) for video in videos[:10]]
+  # print('Parsing Top 10 Videos.')
+  # videos_data = [parse_video(video) for video in videos[:10]]
   
-  print('Saving The Data To A CSV File.')
+  # print('Saving The Data To A CSV File.')
 
-  videos_df = pd.DataFrame(videos_data)
-  print(videos_df)
+  # videos_df = pd.DataFrame(videos_data)
+  # print(videos_df)
 
-  videos_df.to_csv('Trending.csv',index=None)
+  # videos_df.to_csv('Trending.csv',index=None)
+
+  print('send mail')
+  send_mail()
